@@ -1,60 +1,66 @@
 const game = new Chess();
 let openingData = null;
-const stockfish = STOCKFISH();
-stockfish.postMessage("uci");
-
 let currentOpening = null;
 let moveCount = 0;
+let board;
+
+const stockfish = STOCKFISH();
+stockfish.postMessage("uci");
 
 // Load openings
 fetch('openings.json').then(res => res.json()).then(data => openingData = data);
 
-const board = Chessboard('board', {
-  draggable: true,
-  position: localStorage.getItem("checkEngineFen") || 'start',
-  pieceTheme: piece => `https://chessboardjs.com/img/chesspieces/wikipedia/${piece}.png`,
-  onDragStart: (s, p) => {
-    if (game.game_over()) return false;
-    return true;
-  },
-  onDrop: (s, t) => {
-    let move = game.move({ from: s, to: t, promotion: 'q' });
-    if (move === null) return 'snapback';
+window.onload = () => {
+  board = Chessboard('board', {
+    draggable: true,
+    position: localStorage.getItem("checkEngineFen") || 'start',
+    pieceTheme: piece => `https://chessboardjs.com/img/chesspieces/wikipedia/${piece}.png`,
+    onDragStart: (s, p) => {
+      if (game.game_over()) return false;
+      return true;
+    },
+    onDrop: (s, t) => {
+      let move = game.move({ from: s, to: t, promotion: 'q' });
+      if (move === null) return 'snapback';
 
-    const moveNotation = s + t;
-    if (!isOpeningMove(moveNotation, moveCount)) {
-      alert("That's not part of the chosen opening!");
-      game.undo();
-      board.position(game.fen());
-      return 'snapback';
-    }
+      const moveNotation = s + t;
+      if (!isOpeningMove(moveNotation, moveCount)) {
+        alert("That's not part of the chosen opening!");
+        game.undo();
+        board.position(game.fen());
+        return 'snapback';
+      }
 
-    moveCount++;
-    savePosition(game.fen());
-    updateHistory(move);
-    enforceOpening(moveNotation);
-    analyzeMove();
+      moveCount++;
+      savePosition(game.fen());
+      updateHistory(move);
+      enforceOpening(moveNotation);
+      analyzeMove();
 
-    if (lockIfNeeded(moveCount)) {
-      lockDevelopedPieces();
-    }
-  },
-  onSnapEnd: () => board.position(game.fen())
-});
+      if (lockIfNeeded(moveCount)) {
+        lockDevelopedPieces();
+      }
+    },
+    onSnapEnd: () => board.position(game.fen())
+  });
 
-if(localStorage.getItem("checkEngineFen")) game.load(localStorage.getItem("checkEngineFen"));
+  if (localStorage.getItem("checkEngineFen")) {
+    game.load(localStorage.getItem("checkEngineFen"));
+    board.position(game.fen());
+  }
 
-document.getElementById("openingSelect").addEventListener("change", e => {
-  currentOpening = openingData[e.target.value];
-  moveCount = 0;
-  resetBoard();
-  highlightMoves(currentOpening.highlight);
-});
+  document.getElementById("openingSelect").addEventListener("change", e => {
+    currentOpening = openingData[e.target.value];
+    moveCount = 0;
+    resetBoard();
+    highlightMoves(currentOpening.highlight);
+  });
 
-document.getElementById("resetBtn").onclick = resetBoard;
-document.getElementById("clearSave").onclick = () => {
-  localStorage.removeItem("checkEngineFen");
-  resetBoard();
+  document.getElementById("resetBtn").onclick = resetBoard;
+  document.getElementById("clearSave").onclick = () => {
+    localStorage.removeItem("checkEngineFen");
+    resetBoard();
+  };
 };
 
 function resetBoard() {
@@ -74,7 +80,8 @@ function updateHistory(move) {
   const li = document.createElement('li');
   li.innerText = move.san;
   li.onclick = () => {
-    game.undo(); board.position(game.fen());
+    game.undo();
+    board.position(game.fen());
   };
   document.getElementById("moveHistory").appendChild(li);
 }
@@ -130,7 +137,7 @@ function analyzeMove() {
   stockfish.postMessage("go depth 15");
   stockfish.onmessage = msg => {
     if (msg.startsWith("info depth")) {
-      const sc = msg.match(/cp (-?\d+)/);
+      const sc = msg.match(/cp (-?\\d+)/);
       if (sc) {
         highlightLastMove(sc[1]);
       }
@@ -142,7 +149,7 @@ function highlightLastMove(score) {
   const last = game.history({ verbose: true }).pop();
   const color = score > 50 ? 'green' : score < -50 ? 'red' : 'orange';
   const sqTo = document.querySelector(`.square-${last.to}`);
-  if(!sqTo) return;
+  if (!sqTo) return;
   const ov = document.createElement('div');
   ov.className = `feedback ${color}`;
   sqTo.appendChild(ov);
