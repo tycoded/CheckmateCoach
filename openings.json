@@ -1,0 +1,17 @@
+{
+  "Queen's Gambit": {
+    "openingMoves": ["d2d4", "d7d5", "c2c4", "c7c6"],
+    "developmentSquares": ["e2", "d2", "c4", "f1"],
+    "completeAfter": 4
+  },
+  "London System": {
+    "openingMoves": ["d2d4", "d7d5", "c1f4", "e7e6", "e2e3"],
+    "developmentSquares": ["d2", "f4", "e3"],
+    "completeAfter": 5
+  },
+  "Italian Game": {
+    "openingMoves": ["e2e4", "e7e5", "g1f3", "b8c6", "f1c4"],
+    "developmentSquares": ["e4", "f3", "c4"],
+    "completeAfter": 5
+  }
+}
