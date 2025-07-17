@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CheckmateCoach</title>
+  
+  <!-- Chessboard.js and Chess.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+
+  <!-- Custom Style -->
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+      color: #00ffe7;
+    }
+
+    #loading {
+      color: #aaa;
+      margin: 0.5rem;
+    }
+
+    #opening-select {
+      margin: 1rem 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    #board {
+      width: 90vw;
+      max-width: 400px;
+    }
+
+    #move-history {
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 400px;
+      background: #2a2a2a;
+      padding: 0.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      overflow-y: auto;
+      max-height: 200px;
+    }
+
+    option {
+      background: #1e1e1e;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>CheckmateCoach</h1>
+  <div id="loading">🔄 Loading opening data...</div>
+
+  <select id="opening-select" disabled>
+    <option>Loading...</option>
+  </select>
+
+  <div id="board"></div>
+
+  <div id="move-history"></div>
+
+  <script>
+    const boardElement = document.getElementById("board");
+    const moveHistoryEl = document.getElementById("move-history");
+    const openingSelect = document.getElementById("opening-select");
+    const loadingMsg = document.getElementById("loading");
+
+    const game = new Chess();
+    let board;
+
+    const openings = {
+      "Italian Game": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5"],
+      "Scholar's Mate": ["e4", "e5", "Qh5", "Nc6", "Bc4", "Nf6", "Qxf7#"],
+      "London System": ["d4", "d5", "Nf3", "Nf6", "Bf4", "e6", "e3", "Bd6", "Bd3", "O-O", "Nbd2"],
+    };
+
+    // Populate openings
+    function loadOpenings() {
+      openingSelect.innerHTML = '<option>Select an Opening</option>';
+      for (let name in openings) {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        openingSelect.appendChild(opt);
+      }
+      openingSelect.disabled = false;
+      loadingMsg.style.display = "none";
+    }
+
+    // Apply selected opening
+    function playOpening(moves) {
+      game.reset();
+      board.position("start");
+      moveHistoryEl.innerHTML = "";
+      moves.forEach((move, i) => {
+        setTimeout(() => {
+          game.move(move);
+          board.position(game.fen());
+          moveHistoryEl.innerHTML += `<div>${i + 1}. ${move}</div>`;
+        }, 600 * i);
+      });
+    }
+
+    // Setup board
+    board = Chessboard("board", {
+      position: "start",
+      draggable: true,
+      dropOffBoard: "snapback",
+      onDrop: (source, target) => {
+        const move = game.move({ from: source, to: target, promotion: "q" });
+        if (move) {
+          moveHistoryEl.innerHTML += `<div>${move.san}</div>`;
+        }
+      }
+    });
+
+    // Event: Select Opening
+    openingSelect.addEventListener("change", () => {
+      const selected = openingSelect.value;
+      if (openings[selected]) {
+        playOpening(openings[selected]);
+      }
+    });
+
+    // Load openings after slight delay to simulate fetch
+    setTimeout(loadOpenings, 1000);
+  </script>
+</body>
+</html>
