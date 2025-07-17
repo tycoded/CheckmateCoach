@@ -67,3 +67,23 @@ button:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #00eaffaa;
 }
+#historyContainer {
+  margin-top: 20px;
+  text-align: left;
+  color: #cdd6e0;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#moveHistory li {
+  cursor: pointer;
+  padding: 5px;
+  transition: background 0.2s ease;
+}
+#moveHistory li:hover {
+  background: #00eaff22;
+}
+.square.locked {
+  opacity: 0.5;
+  pointer-events: none;
+}
