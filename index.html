@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CheckmateCoach</title>
+
+  <!-- Chessboard.js styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chess logic -->
+  <script src="https://cdn.jsdelivr.net/npm/chess.js@1.0.0/chess.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+</head>
+<body>
+  <h1 style="text-align:center;">CheckmateCoach</h1>
+
+  <div style="text-align:center; margin-bottom: 10px;">
+    <label for="openingSelect">Choose Opening:</label>
+    <select id="openingSelect">
+      <option value="">--Select--</option>
+      <option value="Italian Game">Italian Game</option>
+      <option value="Queen's Gambit">Queen's Gambit</option>
+      <option value="London System">London System</option>
+    </select>
+    <button id="resetBtn">Reset</button>
+    <button id="clearSave">Clear Save</button>
+  </div>
+
+  <div id="board" style="width: 90%; max-width: 400px; margin: auto;"></div>
+
+  <div id="moveHistory" class="panel">
+    <h3>Move History</h3>
+    <ol id="moveHistory"></ol>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/stockfish/stockfish.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
