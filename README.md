@@ -1,4 +1,4 @@
-# CheckmateCoach ♟️
+# ♟️CheckmateCoach+
 
 A sleek, mobile-friendly chess web app designed to help you learn and execute strong openings — with visual highlights, move enforcement, and Stockfish analysis baked in.
 
