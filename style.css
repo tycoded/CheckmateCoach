@@ -26,64 +26,56 @@ h1 {
 
 .tagline {
   color: #9ea8c7;
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-}
-
-.board-glass {
-  margin: 0 auto;
-  max-width: 420px;
-  padding: 15px;
-  background: rgba(10, 20, 30, 0.3);
-  border: 1px solid rgba(0, 234, 255, 0.2);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  box-shadow: 0 0 25px #00eaff44;
-}
-
-#board {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.buttons {
-  margin-top: 25px;
+  font-size: 1.2em;
+  margin-bottom: 20px;
 }
 
 button {
-  background: linear-gradient(to right, #00eaff, #00c4cc);
+  font-size: 1em;
+  padding: 10px 20px;
+  background-color: #1a88ff;
+  color: white;
   border: none;
-  color: #0a0f1e;
-  font-weight: bold;
-  font-size: 1rem;
-  padding: 10px 25px;
-  margin: 10px;
-  border-radius: 6px;
+  border-radius: 4px;
+  margin: 10px 5px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px #00eaffaa;
+  background-color: #005fcc;
 }
-#historyContainer {
-  margin-top: 20px;
-  text-align: left;
-  color: #cdd6e0;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
-}
-#moveHistory li {
-  cursor: pointer;
-  padding: 5px;
-  transition: background 0.2s ease;
-}
-#moveHistory li:hover {
-  background: #00eaff22;
-}
-.square.locked {
-  opacity: 0.5;
-  pointer-events: none;
+
+/* === MOBILE RESPONSIVENESS === */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 20px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  .tagline {
+    font-size: 1em;
+  }
+
+  canvas, #board {
+    width: 100% !important;
+    max-width: 95vw;
+    height: auto !important;
+  }
+
+  button {
+    width: 90%;
+    font-size: 1em;
+    margin: 8px 0;
+  }
 }
