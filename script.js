@@ -21,11 +21,23 @@ const board = Chessboard('board', {
     let move = game.move({ from: s, to: t, promotion: 'q' });
     if (move === null) return 'snapback';
 
+    const moveNotation = s + t;
+    if (!isOpeningMove(moveNotation, moveCount)) {
+      alert("That's not part of the chosen opening!");
+      game.undo();
+      board.position(game.fen());
+      return 'snapback';
+    }
+
     moveCount++;
     savePosition(game.fen());
     updateHistory(move);
-    enforceOpening(s + t);
+    enforceOpening(moveNotation);
     analyzeMove();
+
+    if (lockIfNeeded(moveCount)) {
+      lockDevelopedPieces();
+    }
   },
   onSnapEnd: () => board.position(game.fen())
 });
@@ -36,6 +48,7 @@ document.getElementById("openingSelect").addEventListener("change", e => {
   currentOpening = openingData[e.target.value];
   moveCount = 0;
   resetBoard();
+  highlightMoves(currentOpening.highlight);
 });
 
 document.getElementById("resetBtn").onclick = resetBoard;
@@ -49,6 +62,8 @@ function resetBoard() {
   board.start();
   moveCount = 0;
   document.getElementById("moveHistory").innerHTML = '';
+  document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+  document.querySelectorAll('.locked').forEach(el => el.classList.remove('locked'));
 }
 
 function savePosition(fen) {
@@ -67,7 +82,7 @@ function updateHistory(move) {
 function enforceOpening(mv) {
   if (!currentOpening) return;
   const idx = moveCount - 1;
-  const expected = currentOpening.openingMoves[idx];
+  const expected = currentOpening.moves[idx];
   if (mv !== expected) {
     alert("That's not part of the chosen opening!");
     game.undo();
@@ -76,15 +91,38 @@ function enforceOpening(mv) {
     return;
   }
 
-  if (idx < currentOpening.completeAfter) {
-    const sq = currentOpening.developmentSquares[idx];
-    document.querySelector(`.square-${sq}`)
-      .classList.add('locked');
-  }
+  const square = expected.slice(2, 4); // get 'to' square
+  const sqEl = document.querySelector(`.square-${square}`);
+  if (sqEl) sqEl.classList.add('locked');
 
-  if (moveCount === currentOpening.completeAfter) {
+  if (moveCount === currentOpening.lockAfter) {
     alert("Opening development complete!");
   }
+}
+
+function highlightMoves(squares) {
+  if (!squares || !Array.isArray(squares)) return;
+  squares.forEach(sq => {
+    const el = document.querySelector(`.square-${sq}`);
+    if (el) el.classList.add("highlight");
+  });
+}
+
+function isOpeningMove(move, count) {
+  if (!currentOpening || !currentOpening.moves) return true;
+  return move === currentOpening.moves[count];
+}
+
+function lockIfNeeded(count) {
+  return currentOpening && count >= currentOpening.lockAfter;
+}
+
+function lockDevelopedPieces() {
+  console.log("Locking developed pieces...");
+  currentOpening.highlight.forEach(sq => {
+    const el = document.querySelector(`.square-${sq}`);
+    if (el) el.classList.add('locked');
+  });
 }
 
 function analyzeMove() {
