@@ -1,30 +1,42 @@
-## 🧠 What is CheckmateCoach+?
+# CheckmateCoach ♟️
 
-A strict chess trainer built to:
-- Lock you into real openings (Italian, London, Queen’s Gambit, etc)
-- Track your every move, rating, and blunder
-- Analyze how you play vs how you *should’ve*
-- Build your personal playstyle into an AI: **CheckBot2.0**
+A sleek, mobile-friendly chess web app designed to help you learn and execute strong openings — with visual highlights, move enforcement, and Stockfish analysis baked in.
+
+## 🔗 Live App
+
+👉 [Try CheckmateCoach live](https://tycoded.github.io/CheckmateCoach/)
+
+## 🚀 Features
+
+- Select from preset openings (Italian Game, Queen's Gambit, London System)
+- Color-coded piece development
+- Blocks illegal moves outside of the selected opening
+- Stockfish engine analysis in-browser
+- Move history tracking
+- Mobile-first responsive UI
+
+## 🛠️ Tech Stack
+
+- HTML + CSS + JavaScript
+- [chessboard.js](https://chessboardjs.com/)
+- [chess.js](https://github.com/jhlywa/chess.js)
+- [Stockfish.js](https://stockfishchess.org/)
+- Hosted via GitHub Pages
+
+## 📁 Structure
+
+- `index.html` — main layout
+- `script.js` — app logic
+- `style.css` — dark-themed styling
+- `openings.json` — list of supported openings
+
+## 💡 Coming Soon
+
+- More advanced openings
+- Custom user-created openings
+- Visual opening explorer
+- Win detection and AI move suggestions
 
 ---
 
-## ⚙️ Features (Stage 1 MVP)
-
-- ✅ Play full games vs 800+ level AI
-- ✅ Get locked into 1 opening per set (3 games per set)
-- ✅ Review how you performed and where you blundered
-- ✅ Learn why the opponent moved the way they did
-- ✅ Discover permanent squares, forced mates, traps
-
----
-
-## 📈 Coming Soon
-
-- 💡 “No restriction” mode to analyze your freestyle play
-- 🧩 CheckBot2.0 learns your style over time
-- 🧠 Opening mastery breakdown (which works best for you?)
-- 🛡️ Mobile-first layout with hosted web version
-
----
-
-## 👤 Powered by tycoded
+Feel free to fork, contribute, or just enjoy crushing with clean opening lines.
