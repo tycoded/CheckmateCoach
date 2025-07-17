@@ -7,8 +7,9 @@ let board;
 const stockfish = STOCKFISH();
 stockfish.postMessage("uci");
 
-// Load openings
-fetch('openings.json').then(res => res.json()).then(data => openingData = data);
+fetch('openings.json')
+  .then(res => res.json())
+  .then(data => openingData = data);
 
 window.onload = () => {
   board = Chessboard('board', {
@@ -125,7 +126,7 @@ function lockIfNeeded(count) {
 }
 
 function lockDevelopedPieces() {
-  console.log("Locking developed pieces...");
+  if (!currentOpening?.highlight) return;
   currentOpening.highlight.forEach(sq => {
     const el = document.querySelector(`.square-${sq}`);
     if (el) el.classList.add('locked');
