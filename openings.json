@@ -1,20 +1,20 @@
 {
   "Italian Game": {
     "color": "white",
-    "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5"],
+    "moves": ["e2e4", "e7e5", "g1f3", "b8c6", "f1c4", "f8c5"],
     "lockAfter": 6,
-    "highlight": ["e4", "Nf3", "Bc4"]
+    "highlight": ["e4", "f3", "c4"]
   },
   "Queen's Gambit": {
     "color": "white",
-    "moves": ["d4", "d5", "c4"],
+    "moves": ["d2d4", "d7d5", "c2c4"],
     "lockAfter": 3,
     "highlight": ["d4", "c4"]
   },
   "London System": {
     "color": "white",
-    "moves": ["d4", "Nf3", "Bf4", "e3", "c3", "c4"],
+    "moves": ["d2d4", "g1f3", "c1f4", "e2e3", "c2c3", "b1d2"],
     "lockAfter": 6,
-    "highlight": ["d4", "Bf4", "e3"]
+    "highlight": ["d4", "f4", "e3"]
   }
 }
