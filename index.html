@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>CheckmateCoach</title>
+
+  <!-- Chessboard.js styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+
+  <!-- Custom dark style -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Chess logic -->
   <script src="https://cdn.jsdelivr.net/npm/chess.js@1.0.0/chess.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
 <body>
   <h1 style="text-align:center;">CheckmateCoach</h1>
@@ -23,14 +29,19 @@
     <button id="clearSave">Clear Save</button>
   </div>
 
+  <!-- The Chessboard -->
   <div id="board" style="width: 90%; max-width: 400px; margin: auto;"></div>
 
+  <!-- Move History -->
   <div id="moveHistory" class="panel">
     <h3>Move History</h3>
     <ol id="moveHistory"></ol>
   </div>
 
+  <!-- Stockfish engine -->
   <script src="https://cdn.jsdelivr.net/npm/stockfish/stockfish.js"></script>
+
+  <!-- Main app logic -->
   <script src="script.js"></script>
 </body>
 </html>
